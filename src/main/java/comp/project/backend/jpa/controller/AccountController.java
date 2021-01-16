@@ -2,7 +2,6 @@ package comp.project.backend.jpa.controller;
 
 import comp.project.backend.jpa.persistence.Account;
 import comp.project.backend.jpa.persistence.AccountRepository;
-import comp.project.backend.jpa.persistence.Part;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-@CrossOrigin( origins = {"http://localhost:3000",  "http://localhost:3001"} )
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @Slf4j
 public class AccountController {
 
@@ -29,4 +28,6 @@ public class AccountController {
     public List<Account> getAccounts() {
         return accountRepository.findAll();
     }
+
+
 }

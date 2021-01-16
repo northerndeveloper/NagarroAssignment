@@ -37,10 +37,4 @@ public class Statement {
     private String accountId;
 
 
-
-
-
-    
-    
-    
 }
