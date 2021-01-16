@@ -12,17 +12,45 @@
 <body>
 
 <form action="#" th:action="@{/findStatements}" th:object="${statementQuery}" method="post">
-    <div class="row">
-        <div class="form-group col-md-6">
+    <div class="rows">
+
+
+        <div class="card-columns form-group col-md-7">
             <label for="accountId" class="col-form-label">Name</label>
-            <input type="text" th:field="*{accountId}" class="form-control" id="accountId" placeholder="Account ID">
+            <input type="text" th:field ="*{accountId}" id="accountId" placeholder="Account ID" class="form-control">
             <span th:if="${#fields.hasErrors('accountId')}" th:errors="*{accountId}" class="text-danger"></span>
         </div>
 
+        <div class="card-columns form-group col-md-7">
+            <label for="fromDate" class="col-form-label">From Date</label>
+            <input type="date" th:field="*{fromDate}" id="fromDate" class="form-control"/>
+            <span th:if="${#fields.hasErrors('fromDate')}" th:errors="*{fromDate}" class="text-danger"></span>
+        </div>
+
+        <div class="card-columns form-group col-md-7">
+            <label for="toDate" class="col-form-label">To Date</label>
+            <input type="date" th:field="*{toDate}" id="toDate" class="form-control"/>
+            <span th:if="${#fields.hasErrors('toDate')}" th:errors="*{toDate}" class="text-danger"></span>
+        </div>
+
+        <div class="card-columns form-group col-md-7">
+            <label for="fromBalance" class="col-form-label">From Balance</label>
+            <input type="text" th:field="*{fromBalance}" id="fromBalance" pattern="[0-9]" placeholder="From Balance" class="form-control"/>
+            <span th:if="${#fields.hasErrors('fromBalance')}" th:errors="*{fromBalance}" class="text-danger" data-original-title="please enter a valid first name"></span>
+        </div>
+
+        <div class="card-columns form-group col-md-7">
+            <label for="toBalance" class="col-form-label">To Balance</label>
+            <input type="text" th:field="*{toBalance}" id="toBalance" placeholder="To Balance" class="form-control"/>
+            <span th:if="${#fields.hasErrors('toBalance')}" th:errors="*{toBalance}" class="text-danger"></span>
+        </div>
+
+
     </div>
     <div class="row">
-        <div class="col-md-6 mt-5">
+        <div class="col-md-12 mt-7">
             <input type="submit" class="btn btn-primary" value="Search For Statement">
+            <input type="reset" class="btn btn-primary" value="Clear Fields">
         </div>
     </div>
 </form>
