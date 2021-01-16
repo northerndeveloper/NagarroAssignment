@@ -1,7 +1,7 @@
-package comp.project.backend.jpa.controller;
+package nagarro.jpa.controller;
 
-import comp.project.backend.jpa.persistence.Statement;
-import comp.project.backend.jpa.persistence.StatementRepository;
+import nagarro.jpa.entity.Statement;
+import nagarro.jpa.repository.StatementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

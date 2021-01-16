@@ -1,7 +1,7 @@
-package comp.project.backend.jpa.controller;
+package nagarro.jpa.controller;
 
-import comp.project.backend.jpa.persistence.Account;
-import comp.project.backend.jpa.persistence.AccountRepository;
+import nagarro.jpa.entity.Account;
+import nagarro.jpa.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;

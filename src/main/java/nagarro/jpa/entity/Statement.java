@@ -1,4 +1,4 @@
-package comp.project.backend.jpa.persistence;
+package nagarro.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

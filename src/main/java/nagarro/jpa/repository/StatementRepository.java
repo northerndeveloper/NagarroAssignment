@@ -1,5 +1,6 @@
-package comp.project.backend.jpa.persistence;
+package nagarro.jpa.repository;
 
+import nagarro.jpa.entity.Statement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,5 +1,6 @@
-package comp.project.backend.jpa.persistence;
+package nagarro.jpa.repository;
 
+import nagarro.jpa.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
