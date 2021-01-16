@@ -17,7 +17,6 @@ public class DataSourceConfig {
         String dir = System.getProperty("user.dir");
         ds.setJdbcUrl("jdbc:ucanaccess://" + dir + "//src//main//resources//accountsdb.accdb;showSchema=true");
         ds.setDriverClass("net.ucanaccess.jdbc.UcanaccessDriver");
-
         return ds;
     }
 
