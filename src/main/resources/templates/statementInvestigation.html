@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Statements</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/shards.min.css">
+</head>
+<body>
+
+<form action="#" th:action="@{/findStatements}" th:object="${statementQuery}" method="post">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="accountId" class="col-form-label">Name</label>
+            <input type="text" th:field="*{accountId}" class="form-control" id="accountId" placeholder="Account ID">
+            <span th:if="${#fields.hasErrors('accountId')}" th:errors="*{accountId}" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6 mt-5">
+            <input type="submit" class="btn btn-primary" value="Search For Statement">
+        </div>
+    </div>
+</form>
+
+
+
+
+<div th:switch="${statements}" class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 th:case="null">No statements yet!</h2>
+            <div th:case="*">
+                <h2 class="my-5">Statements</h2>
+                <table class="table table-striped table-responsive-md">
+                    <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Statement ID</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="statement : ${statements}">
+                        <td th:text="${statement.accountId}"></td>
+                        <td th:text="${statement.id}"></td>
+                        <td th:text="${statement.amount}"></td>
+                        <td th:text="${statement.dateField}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

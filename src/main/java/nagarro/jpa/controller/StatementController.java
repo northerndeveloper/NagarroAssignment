@@ -1,14 +1,19 @@
 package nagarro.jpa.controller;
 
 import nagarro.jpa.entity.Statement;
+import nagarro.jpa.entity.StatementQuery;
 import nagarro.jpa.repository.StatementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,7 +25,7 @@ import java.util.List;
 /**
  * @author alperkopuz
  */
-@RestController
+@Controller
 @Transactional(isolation = Isolation.READ_UNCOMMITTED)
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @Slf4j
@@ -29,18 +34,41 @@ public class StatementController {
     @Autowired
     private StatementRepository statementRepository;
 
-
-    @GetMapping(value = "/statements", headers = "Accept=application/json")
-    public List<Statement> getStatements() {
-        return statementRepository.findAll();
+    @GetMapping("/statements")
+    public String showStatementList(Model model) {
+        model.addAttribute("statements", statementRepository.findAll());
+        return "statement";
     }
 
-    @GetMapping(value = "/findStatements", headers = "Accept=application/json")
-    public List<Statement> findStatements(@RequestParam(name = "accountId") String accountId,
-                                          @RequestParam(name = "fromDate", required=false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date fromDate,
-                                          @RequestParam(name = "toDate", required=false) @DateTimeFormat(pattern = "dd.MM.yyyy") Date toDate,
-                                          @RequestParam(name = "fromAmount", required=false) BigDecimal fromAmount,
-                                          @RequestParam(name = "toAmount", required=false) BigDecimal toAmount) throws ParseException { //TODO exception please
+    @GetMapping("/statementinvestigation")
+    public String showStatementInvestigation(Model model) {
+        model.addAttribute("statementQuery", new StatementQuery());
+        return "statementInvestigation";
+    }
+
+    @PostMapping("/findStatements")
+    public String findStatements(@Valid StatementQuery statementQuery, BindingResult result, Model model) throws ParseException {
+/*
+        if (result.hasErrors()) {
+            return "add-user";
+        }
+
+        userRepository.save(user);
+        return "redirect:/index";
+
+ */
+
+        List<Statement> statementList = findStatements(statementQuery.getAccountId(), statementQuery.getFromDate(), statementQuery.getToDate(),
+                statementQuery.getFromBalance(), statementQuery.getToBalance());
+
+        model.addAttribute("statements", statementList);
+        model.addAttribute("statementQuery", statementQuery);
+
+        return "statementInvestigation";
+    }
+
+    public List<Statement> findStatements(String accountId, Date fromDate, Date toDate, BigDecimal fromAmount, BigDecimal toAmount)
+            throws ParseException { //TODO exception please
 
         //TODO accountID boş ise hemen exception fırlat hatta bunu ekrana yap
 

@@ -28,4 +28,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/net.sf.ucanaccess/ucanaccess
     compile group: 'net.sf.ucanaccess', name: 'ucanaccess', version: '4.0.4'
+
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+
 }
