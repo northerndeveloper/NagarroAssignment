@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author alperkopuz
@@ -16,8 +14,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Data
 @Table(name = "Account")
-@EqualsAndHashCode()
+@EqualsAndHashCode
 public class Account {
+
+    @OneToMany
+    @JoinColumn(name = "account_id", referencedColumnName = "ID")
+    private List<Statement> statements;
 
     @Id
     @Column(name = "ID")
