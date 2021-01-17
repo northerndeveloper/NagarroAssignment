@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="nagarro.jpa.controller.StatementControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-01-17T17:35:51" hostname="Apple-MacBook-Air.local" time="0.062">
+  <properties/>
+  <testcase name="whenCalledStatement_thenCorrect()" classname="nagarro.jpa.controller.StatementControllerTest" time="0.001"/>
+  <testcase name="whenCalledFindStatements_thenCorrect()" classname="nagarro.jpa.controller.StatementControllerTest" time="0.046"/>
+  <testcase name="whenCalledFethFilteredStatements_thenCorrect()" classname="nagarro.jpa.controller.StatementControllerTest" time="0.012"/>
+  <testcase name="whenCalledStatementInvestigation_thenCorrect()" classname="nagarro.jpa.controller.StatementControllerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
