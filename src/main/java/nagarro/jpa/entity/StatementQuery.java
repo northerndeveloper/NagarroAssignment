@@ -10,6 +10,10 @@ import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author alperkopuz
+ * StatementQuery is the query object for the search inputs of the user
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

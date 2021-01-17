@@ -18,6 +18,7 @@ package net.ucanaccess.hibernate.dialect;
 import org.hibernate.dialect.SQLServerDialect;
 
 /**
+ * @author alperkopuz
  * Hibernate dialect for UCanAccess
  */
 public class UCanAccessDialect extends SQLServerDialect {

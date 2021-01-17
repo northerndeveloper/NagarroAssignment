@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Statement Entity class which mapped from Statement Table of embedded accountsdb.accdb
+ */
 @Entity
 @Data
 @Table(name = "Statement")

@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * @author alperkopuz
+ * Account Entity class which mapped from Account Table of embedded accountsdb.accdb
  */
 @Entity
 @Data

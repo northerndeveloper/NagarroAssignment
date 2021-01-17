@@ -7,10 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 /**
- *
+ * @author alperkopuz
+ * DataSourceConfig class used to establish the embedded db called acconuntssdb inside the workspace
  */
 @Configuration
 public class DataSourceConfig {
+
+    /**
+     * Creates Data source to establish a connection with the embedded db.
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean
     public DataSource createDataSource() throws Exception {
         ComboPooledDataSource ds = new ComboPooledDataSource();

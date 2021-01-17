@@ -1,7 +1,7 @@
 package nagarro.jpa.controller;
 
-import nagarro.jpa.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
+import nagarro.jpa.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Isolation;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author alperkopuz
+ * Account Controller responsible with the webservice requests for listing Accounts
  */
 @Controller
 @Transactional(isolation = Isolation.READ_UNCOMMITTED)
