@@ -6,6 +6,8 @@ import nagarro.jpa.repository.StatementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +45,11 @@ public class StatementController {
 
     @GetMapping("/statementinvestigation")
     public String showStatementInvestigation(Model model) {
+
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+
         model.addAttribute("statementQuery", new StatementQuery());
+        model.addAttribute("loggedInUser", loggedInUser);
         return "statementInvestigation";
     }
 
