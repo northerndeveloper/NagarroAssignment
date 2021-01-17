@@ -11,9 +11,8 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/findStatements}" th:object="${statementQuery}" method="post">
+<form action="#" th:action="@{/statementinvestigation}" th:object="${statementQuery}" method="post">
     <div class="rows">
-
 
         <div class="card-columns form-group col-md-7">
             <label for="accountId" class="col-form-label">Name</label>
@@ -23,25 +22,25 @@
 
         <div class="card-columns form-group col-md-7">
             <label for="fromDate" class="col-form-label">From Date</label>
-            <input type="date" th:field="*{fromDate}" id="fromDate" class="form-control"/>
+            <input type="date" th:field="*{fromDate}" id="fromDate" class="form-control" th:disabled="${!admin}"/>
             <span th:if="${#fields.hasErrors('fromDate')}" th:errors="*{fromDate}" class="text-danger"></span>
         </div>
 
         <div class="card-columns form-group col-md-7">
             <label for="toDate" class="col-form-label">To Date</label>
-            <input type="date" th:field="*{toDate}" id="toDate" class="form-control"/>
+            <input type="date" th:field="*{toDate}" id="toDate" class="form-control" th:disabled="${!admin}"/>
             <span th:if="${#fields.hasErrors('toDate')}" th:errors="*{toDate}" class="text-danger"></span>
         </div>
 
         <div class="card-columns form-group col-md-7">
             <label for="fromBalance" class="col-form-label">From Balance</label>
-            <input type="text" th:field="*{fromBalance}" id="fromBalance" pattern="[0-9]" placeholder="From Balance" class="form-control"/>
+            <input type="text" th:field="*{fromBalance}" id="fromBalance" pattern="[0-9]" placeholder="From Balance" class="form-control" th:disabled="${!admin}"/>
             <span th:if="${#fields.hasErrors('fromBalance')}" th:errors="*{fromBalance}" class="text-danger" data-original-title="please enter a valid first name"></span>
         </div>
 
         <div class="card-columns form-group col-md-7">
             <label for="toBalance" class="col-form-label">To Balance</label>
-            <input type="text" th:field="*{toBalance}" id="toBalance" placeholder="To Balance" class="form-control"/>
+            <input type="text" th:field="*{toBalance}" id="toBalance" placeholder="To Balance" class="form-control" th:disabled="${!admin}"/>
             <span th:if="${#fields.hasErrors('toBalance')}" th:errors="*{toBalance}" class="text-danger"></span>
         </div>
 
@@ -54,8 +53,6 @@
         </div>
     </div>
 </form>
-
-
 
 
 <div th:switch="${statements}" class="container my-5">

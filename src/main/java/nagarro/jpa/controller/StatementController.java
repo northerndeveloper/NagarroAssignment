@@ -37,6 +37,8 @@ public class StatementController {
     @Autowired
     private StatementRepository statementRepository;
 
+    private boolean isAdmin;
+
     @GetMapping("/statements")
     public String showStatementList(Model model) {
         model.addAttribute("statements", statementRepository.findAll());
@@ -46,15 +48,25 @@ public class StatementController {
     @GetMapping("/statementinvestigation")
     public String showStatementInvestigation(Model model) {
 
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication(); //TODO you can move it to another place later
+
+        if (loggedInUser != null && loggedInUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            isAdmin = true;
+            model.addAttribute("admin", true);
+        } else {
+            isAdmin = false;
+            model.addAttribute("admin", false);
+        }
 
         model.addAttribute("statementQuery", new StatementQuery());
-        model.addAttribute("loggedInUser", loggedInUser);
         return "statementInvestigation";
     }
 
-    @PostMapping("/findStatements")
+    @PostMapping("/statementinvestigation")
     public String findStatements(@Valid StatementQuery statementQuery, BindingResult result, Model model) throws ParseException {
+
+        model.addAttribute("admin", isAdmin);
+        model.addAttribute("statementQuery", statementQuery);
 
         if (result.hasErrors()) {
             return "statementInvestigation";
@@ -64,7 +76,7 @@ public class StatementController {
             FieldError error = new FieldError("fromDate", "fromDate",
                     "Both Date Fields should be filled ");
             result.addError(error);
-            return "statementInvestigation";
+            return "statementInvestigation"; //TODO static constant olarak yazmaya calis boyle degerleri
         }
 
         if (statementQuery.getFromDate() != null && statementQuery.getToDate() == null) {
@@ -92,7 +104,6 @@ public class StatementController {
                 statementQuery.getFromBalance(), statementQuery.getToBalance());
 
         model.addAttribute("statements", statementList);
-        model.addAttribute("statementQuery", statementQuery);
 
         return "statementInvestigation";
     }
@@ -108,14 +119,7 @@ public class StatementController {
 
         List<Statement> filteredList = new ArrayList<>();
 
-
-        //TODO tarihler doğru girilmemişse hemen hata fırlat ikisinin de dolu olması lazım  olmadı bunları ön yüzde hallet
-
-        //TODO fromBalance to Balance doğru girilmişmi falan bu kontrolleri yap
-
-
         for (Statement statement : statementList) { //TODO tell the reason why you are doing it like that
-
 
             if (fromDate != null && fromAmount == null) {
                 DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy"); //TODO move me to util method
@@ -139,11 +143,7 @@ public class StatementController {
                     filteredList.add(statement);  //TODO please think about all exceptions that might occure there
                 }
             }
-
-
         }
-
         return filteredList;
     }
-
 }
