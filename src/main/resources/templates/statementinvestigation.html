@@ -34,7 +34,7 @@
 
         <div class="card-columns form-group col-md-7">
             <label for="fromBalance" class="col-form-label">From Balance</label>
-            <input type="text" th:field="*{fromBalance}" id="fromBalance" pattern="[0-9]" placeholder="From Balance" class="form-control" th:disabled="${!admin}"/>
+            <input type="text" th:field="*{fromBalance}" id="fromBalance"  placeholder="From Balance" class="form-control" th:disabled="${!admin}"/>
             <span th:if="${#fields.hasErrors('fromBalance')}" th:errors="*{fromBalance}" class="text-danger" data-original-title="please enter a valid first name"></span>
         </div>
 

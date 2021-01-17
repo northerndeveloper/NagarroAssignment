@@ -19,12 +19,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class AccountController {
 
+    public static final String ACCOUNT = "account";
+    public static final String ACCOUNTS = "accounts";
+
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    public AccountController(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
     @GetMapping("/accounts")
     public String showAccountList(Model model) {
-        model.addAttribute("accounts", accountRepository.findAll());
-        return "account";
+        model.addAttribute(ACCOUNTS, accountRepository.findAll());
+        return ACCOUNT;
     }
 }

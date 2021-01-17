@@ -1,4 +1,4 @@
-package com.nagarro.security;
+package nagarro.security;
 
 import nagarro.StatementInvestigationApplication;
 import org.junit.jupiter.api.Test;

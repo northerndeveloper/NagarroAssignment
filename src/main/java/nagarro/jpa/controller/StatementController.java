@@ -30,19 +30,33 @@ import java.util.List;
  */
 @Controller
 @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @Slf4j
 public class StatementController {
 
+    public static final String STATEMENT = "statement";
+    public static final String STATEMENTS = "statements";
+    public static final String ADMIN = "admin";
+    public static final String STATEMENT_QUERY = "statementQuery";
+    public static final String STATEMENT_INVESTIGATION = "statementinvestigation";
+    public static final String FROM_DATE = "fromDate";
+    public static final String TO_DATE = "toDate";
+    public static final String TO_BALANCE = "toBalance";
+    public static final String DD_MM_YYYY = "dd.MM.yyyy";
+
     @Autowired
     private StatementRepository statementRepository;
+
+    @Autowired
+    public StatementController(StatementRepository statementRepository) {
+        this.statementRepository = statementRepository;
+    }
 
     private boolean isAdmin;
 
     @GetMapping("/statements")
     public String showStatementList(Model model) {
-        model.addAttribute("statements", statementRepository.findAll());
-        return "statement";
+        model.addAttribute(STATEMENTS, statementRepository.findAll());
+        return STATEMENT;
     }
 
     @GetMapping("/statementinvestigation")
@@ -52,69 +66,67 @@ public class StatementController {
 
         if (loggedInUser != null && loggedInUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             isAdmin = true;
-            model.addAttribute("admin", true);
+            model.addAttribute(ADMIN, true);
         } else {
             isAdmin = false;
-            model.addAttribute("admin", false);
+            model.addAttribute(ADMIN, false);
         }
 
-        model.addAttribute("statementQuery", new StatementQuery());
-        return "statementinvestigation";
+        model.addAttribute(STATEMENT_QUERY, new StatementQuery());
+        return STATEMENT_INVESTIGATION;
     }
 
     @PostMapping("/statementinvestigation")
     public String findStatements(@Valid StatementQuery statementQuery, BindingResult result, Model model) throws ParseException {
 
-        model.addAttribute("admin", isAdmin);
-        model.addAttribute("statementQuery", statementQuery);
+        model.addAttribute(ADMIN, isAdmin);
+        model.addAttribute(STATEMENT_QUERY, statementQuery);
 
         if (result.hasErrors()) {
-            return "statementinvestigation";
+            return STATEMENT_INVESTIGATION;
         }
 
         if (statementQuery.getFromDate() == null && statementQuery.getToDate() != null) {
-            FieldError error = new FieldError("fromDate", "fromDate",
-                    "Both Date Fields should be filled ");
+            FieldError error = new FieldError(FROM_DATE, FROM_DATE, "Both Date Fields should be filled");
             result.addError(error);
-            return "statementinvestigation"; //TODO static constant olarak yazmaya calis boyle degerleri
+            return STATEMENT_INVESTIGATION; //TODO static constant olarak yazmaya calis boyle degerleri
         }
 
         if (statementQuery.getFromDate() != null && statementQuery.getToDate() == null) {
-            FieldError error = new FieldError("toDate", "toDate",
+            FieldError error = new FieldError(TO_DATE, TO_DATE,
                     "Both Date Fields should be filled ");
             result.addError(error);
-            return "statementinvestigation";
+            return STATEMENT_INVESTIGATION;
         }
 
         if (statementQuery.getFromBalance() != null && statementQuery.getToBalance() == null) {
-            FieldError error = new FieldError("toBalance", "toBalance",
+            FieldError error = new FieldError(TO_BALANCE, TO_BALANCE,
                     "Both Balance Fields should be filled ");
             result.addError(error);
-            return "statementinvestigation";
+            return STATEMENT_INVESTIGATION;
         }
 
         if (statementQuery.getFromBalance() == null && statementQuery.getToBalance() != null) {
             FieldError error = new FieldError("fromBalance", "fromBalance",
                     "Both Balance Fields should be filled ");
             result.addError(error);
-            return "statementinvestigation";
+            return STATEMENT_INVESTIGATION;
         }
 
         if(!isAdmin) { //TODO add documentation
             statementQuery.setFromDate(new DateTime().minusMonths(3).toDate());
             statementQuery.setToDate(new Date());
         }
-        List<Statement> statementList = findStatements(statementQuery.getAccountId(), statementQuery.getFromDate(), statementQuery.getToDate(),
+        List<Statement> statementList = fetchFilteredStatements(statementQuery.getAccountId(), statementQuery.getFromDate(), statementQuery.getToDate(),
                 statementQuery.getFromBalance(), statementQuery.getToBalance());
 
-        model.addAttribute("statements", statementList);
+        model.addAttribute(STATEMENTS, statementList);
 
-        return "statementinvestigation";
+        return STATEMENT_INVESTIGATION;
     }
 
-    public List<Statement> findStatements(String accountId, Date fromDate, Date toDate, BigDecimal fromAmount, BigDecimal toAmount)
+    public List<Statement> fetchFilteredStatements(String accountId, Date fromDate, Date toDate, BigDecimal fromAmount, BigDecimal toAmount)
             throws ParseException { //TODO exception please
-
 
         List<Statement> statementList = statementRepository.findStatementsByAccountId(accountId);
         if (fromDate == null && fromAmount == null) {
@@ -126,7 +138,7 @@ public class StatementController {
         for (Statement statement : statementList) { //TODO tell the reason why you are doing it like that
 
             if (fromDate != null && fromAmount == null) {
-                DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy"); //TODO move me to util method
+                DateFormat formatter = new SimpleDateFormat(DD_MM_YYYY); //TODO move me to util method
                 Date date = formatter.parse(statement.getDateField());
                 if (date.before(toDate) && (date.after(fromDate) || date.equals(fromDate))) { //TODO describe it
                     filteredList.add(statement);  //TODO please think about all exceptions that might occure there
@@ -139,7 +151,7 @@ public class StatementController {
                     filteredList.add(statement);  //TODO please think about all exceptions that might occure there
                 }
             } else if (fromAmount != null && fromDate != null) {
-                DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy"); //TODO move me to util method
+                DateFormat formatter = new SimpleDateFormat(DD_MM_YYYY); //TODO move me to util method
                 Date date = formatter.parse(statement.getDateField());
                 if (date.before(toDate) && (date.after(fromDate) || date.equals(fromDate)) &&
                         new BigDecimal(statement.getAmount()).compareTo(fromAmount) == 1 &&
