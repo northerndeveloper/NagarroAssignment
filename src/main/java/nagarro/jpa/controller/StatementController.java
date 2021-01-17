@@ -5,7 +5,6 @@ import nagarro.jpa.entity.StatementQuery;
 import nagarro.jpa.repository.StatementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,7 +59,7 @@ public class StatementController {
         }
 
         model.addAttribute("statementQuery", new StatementQuery());
-        return "statementInvestigation";
+        return "statementinvestigation";
     }
 
     @PostMapping("/statementinvestigation")
@@ -70,35 +69,35 @@ public class StatementController {
         model.addAttribute("statementQuery", statementQuery);
 
         if (result.hasErrors()) {
-            return "statementInvestigation";
+            return "statementinvestigation";
         }
 
         if (statementQuery.getFromDate() == null && statementQuery.getToDate() != null) {
             FieldError error = new FieldError("fromDate", "fromDate",
                     "Both Date Fields should be filled ");
             result.addError(error);
-            return "statementInvestigation"; //TODO static constant olarak yazmaya calis boyle degerleri
+            return "statementinvestigation"; //TODO static constant olarak yazmaya calis boyle degerleri
         }
 
         if (statementQuery.getFromDate() != null && statementQuery.getToDate() == null) {
             FieldError error = new FieldError("toDate", "toDate",
                     "Both Date Fields should be filled ");
             result.addError(error);
-            return "statementInvestigation";
+            return "statementinvestigation";
         }
 
         if (statementQuery.getFromBalance() != null && statementQuery.getToBalance() == null) {
             FieldError error = new FieldError("toBalance", "toBalance",
                     "Both Balance Fields should be filled ");
             result.addError(error);
-            return "statementInvestigation";
+            return "statementinvestigation";
         }
 
         if (statementQuery.getFromBalance() == null && statementQuery.getToBalance() != null) {
             FieldError error = new FieldError("fromBalance", "fromBalance",
                     "Both Balance Fields should be filled ");
             result.addError(error);
-            return "statementInvestigation";
+            return "statementinvestigation";
         }
 
         if(!isAdmin) { //TODO add documentation
@@ -110,7 +109,7 @@ public class StatementController {
 
         model.addAttribute("statements", statementList);
 
-        return "statementInvestigation";
+        return "statementinvestigation";
     }
 
     public List<Statement> findStatements(String accountId, Date fromDate, Date toDate, BigDecimal fromAmount, BigDecimal toAmount)

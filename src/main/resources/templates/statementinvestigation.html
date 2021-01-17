@@ -47,12 +47,20 @@
 
     </div>
     <div class="row">
-        <div class="col-md-12 mt-7">
-            <input type="submit" class="btn btn-primary" value="Search For Statement">
-            <input type="button" name="reset" value="Clear Fields" id="reset" onclick="customReset()" class="btn btn-primary"/>
+        <div style="padding-left:40px;">
+            <input type="submit" class="btn btn-primary" value="Search For Statements">
+            <input type="button" name="reset" value="Clear Fields" id="reset" onclick="customReset()" class="btn btn-secondary"/>
         </div>
     </div>
 </form>
+
+<form th:action="@{/logout}" method="post" style="padding-top:14px;padding-left:12px;">
+    <div class="col-md-12 mt-7">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="submit" name="logout" value="Logout" id="logout" class="btn btn-secondary"/>
+    </div>
+</form>
+
 
 <div th:switch="${statements}" class="container my-5">
     <div class="row">
