@@ -110,7 +110,7 @@ public class StatementController {
         if (statementQuery.getFromDate() == null && statementQuery.getToDate() != null) {
             FieldError error = new FieldError(FROM_DATE, FROM_DATE, "Both Date Fields should be filled");
             result.addError(error);
-            return STATEMENT_INVESTIGATION; //TODO static constant olarak yazmaya calis boyle degerleri
+            return STATEMENT_INVESTIGATION;
         }
 
         if (statementQuery.getFromDate() != null && statementQuery.getToDate() == null) {
@@ -134,7 +134,8 @@ public class StatementController {
             return STATEMENT_INVESTIGATION;
         }
 
-        if (!isAdmin) { //TODO add documentation
+        // If it's a normal user(not an admin), then the user can only see the 3 months back statements
+        if (!isAdmin) {
             statementQuery.setFromDate(new DateTime().minusMonths(3).toDate());
             statementQuery.setToDate(new Date());
         }
