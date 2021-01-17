@@ -3,4 +3,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'Comp_Project_DB_BackEnd'
+rootProject.name = 'StatementInvestigationAssignment'
