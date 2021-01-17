@@ -4,8 +4,9 @@ import nagarro.jpa.entity.Statement;
 import nagarro.jpa.entity.StatementQuery;
 import nagarro.jpa.repository.StatementRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -100,6 +101,10 @@ public class StatementController {
             return "statementInvestigation";
         }
 
+        if(!isAdmin) { //TODO add documentation
+            statementQuery.setFromDate(new DateTime().minusMonths(3).toDate());
+            statementQuery.setToDate(new Date());
+        }
         List<Statement> statementList = findStatements(statementQuery.getAccountId(), statementQuery.getFromDate(), statementQuery.getToDate(),
                 statementQuery.getFromBalance(), statementQuery.getToBalance());
 
